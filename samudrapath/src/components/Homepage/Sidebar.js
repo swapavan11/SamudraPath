@@ -21,21 +21,27 @@ const Sidebar = ({
   setCarriageWeight,
   handleCategoryChange,   
   handleSubtypeChange,
+  setSourceCoordinates, 
+  setDestinationCoordinates,
   
 }) => {
 
   return (
     <aside className="w-3/15 bg-gradient-to-br from-gray-100 to-gray-200 p-5 shadow-lg flex flex-col gap-4">
           {/* Source Input */}
+          
           <div className="space-y-1">
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
               <FaMapMarkerAlt /> Source
             </label>
             <input
               type="text"
-              placeholder="Enter source"
+              placeholder="Enter source or click on map"
               value={source}
-              onChange={(e) => setSource(e.target.value)}
+              onChange={(e) => {
+                setSource(e.target.value); // Allow manual input
+                setSourceCoordinates(null); // Clear map selection if manually editing
+              }}
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
             />
           </div>
@@ -47,12 +53,17 @@ const Sidebar = ({
             </label>
             <input
               type="text"
-              placeholder="Enter destination"
+              placeholder="Enter destination or click on map"
               value={destination}
-              onChange={(e) => setDestination(e.target.value)}
+              onChange={(e) => {
+                setDestination(e.target.value); // Allow manual input
+                setDestinationCoordinates(null); // Clear map selection if manually editing
+              }}
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-            />
+              />
           </div>
+
+
 
           {/* Ship Category Dropdown */}
           <div className="space-y-1">

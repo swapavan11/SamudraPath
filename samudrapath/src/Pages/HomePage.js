@@ -58,7 +58,9 @@ const HomePage =()=>{
   const [selectedSubtype, setSelectedSubtype] = useState("");
   const [sourceCoordinates, setSourceCoordinates] = useState(null);
   const [destinationCoordinates, setDestinationCoordinates] = useState(null);
-  const [carriageWeight, setCarriageWeight] = useState("");
+  const [carriageWeight, setCarriageWeight] = useState(""); 
+
+  
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -69,23 +71,51 @@ const HomePage =()=>{
     setSelectedSubtype(event.target.value);
   };
 
-  const handleMapClick = (event) => {
-    const { lngLat } = event;
-    const { lng, lat } = lngLat;
+  // const handleMapClick = (event) => {
+  //   const { lngLat } = event;
+  //   const { lng, lat } = lngLat;
 
-    if (!sourceCoordinates) {
+  //   if (!sourceCoordinates) {
+  //     setSourceCoordinates({ lat, lng });
+  //     setSource(`${lat}, ${lng}`);
+  //   } else if (!destinationCoordinates) {
+  //     setDestinationCoordinates({ lat, lng });
+  //     setDestination(`${lat}, ${lng}`);
+  //   } else {
+  //     setSourceCoordinates({ lat, lng });
+  //     setSource(`${lat}, ${lng}`);
+  //     setDestinationCoordinates(null);
+  //     setDestination("");
+  //   }
+  // };
+  // const handleMapClick = (event) => {
+  //   const { lng, lat } = event.lngLat;
+  
+  //   if (currentSelection === "source") {
+  //     setSourceCoordinates({ lat, lng });
+  //     setSource(`${lat}, ${lng}`);
+  //     setCurrentSelection(null); // Reset selection after picking
+  //   } else if (currentSelection === "destination") {
+  //     setDestinationCoordinates({ lat, lng });
+  //     setDestination(`${lat}, ${lng}`);
+  //     setCurrentSelection(null); // Reset selection after picking
+  //   }
+  // };
+  const handleMapClick = (event) => {
+    const { lng, lat } = event.lngLat;
+  
+    if (!sourceCoordinates && !source) {
+      // Assign map click to source if it's empty
       setSourceCoordinates({ lat, lng });
       setSource(`${lat}, ${lng}`);
-    } else if (!destinationCoordinates) {
+    } else if (!destinationCoordinates && !destination) {
+      // Assign map click to destination if it's empty
       setDestinationCoordinates({ lat, lng });
       setDestination(`${lat}, ${lng}`);
-    } else {
-      setSourceCoordinates({ lat, lng });
-      setSource(`${lat}, ${lng}`);
-      setDestinationCoordinates(null);
-      setDestination("");
     }
   };
+  
+  
 
   return (
     
@@ -111,6 +141,8 @@ const HomePage =()=>{
         setCarriageWeight={setCarriageWeight}
         handleCategoryChange={handleCategoryChange}
         handleSubtypeChange={handleSubtypeChange}
+        setSourceCoordinates={setSourceCoordinates} // Pass setSourceCoordinates
+  setDestinationCoordinates={setDestinationCoordinates}
       />
     </div>
     <div className="flex-1 w-full h-full">
