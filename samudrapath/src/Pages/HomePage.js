@@ -1,9 +1,7 @@
 import React, { useState } from "react"; 
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import MapView from "./components/MapView";
-
-
+import Navbar from "../components/Homepage/Navbar";
+import Sidebar from "../components/Homepage/Sidebar";
+import MapView from "../components/Homepage/MapView";
 
 const routeCoordinates = [
     [72.8502, 18.9601],
