@@ -48,6 +48,9 @@ const routeCoordinates = [
     ],
     Tugboats: ["Harbor Tug", "Ocean-going Tug"],
   };
+
+
+
   
 const HomePage =()=>{
     const [source, setSource] = useState("");
@@ -70,37 +73,7 @@ const HomePage =()=>{
   const handleSubtypeChange = (event) => {
     setSelectedSubtype(event.target.value);
   };
-
-  // const handleMapClick = (event) => {
-  //   const { lngLat } = event;
-  //   const { lng, lat } = lngLat;
-
-  //   if (!sourceCoordinates) {
-  //     setSourceCoordinates({ lat, lng });
-  //     setSource(`${lat}, ${lng}`);
-  //   } else if (!destinationCoordinates) {
-  //     setDestinationCoordinates({ lat, lng });
-  //     setDestination(`${lat}, ${lng}`);
-  //   } else {
-  //     setSourceCoordinates({ lat, lng });
-  //     setSource(`${lat}, ${lng}`);
-  //     setDestinationCoordinates(null);
-  //     setDestination("");
-  //   }
-  // };
-  // const handleMapClick = (event) => {
-  //   const { lng, lat } = event.lngLat;
   
-  //   if (currentSelection === "source") {
-  //     setSourceCoordinates({ lat, lng });
-  //     setSource(`${lat}, ${lng}`);
-  //     setCurrentSelection(null); // Reset selection after picking
-  //   } else if (currentSelection === "destination") {
-  //     setDestinationCoordinates({ lat, lng });
-  //     setDestination(`${lat}, ${lng}`);
-  //     setCurrentSelection(null); // Reset selection after picking
-  //   }
-  // };
   const handleMapClick = (event) => {
     const { lng, lat } = event.lngLat;
   
