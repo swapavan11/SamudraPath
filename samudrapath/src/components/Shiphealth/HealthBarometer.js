@@ -8,7 +8,7 @@ const HealthBarometer = ({ riskLevel, fuelLevel }) => {
 
   return (
     <div className="bg-white shadow-lg rounded-xl p-8 mb-8 border border-gray-300 w-full">
-      <h3 className="text-3xl font-semibold text-indigo-600 mb-6 border-b-2 border-indigo-500 pb-2">Health Barometer</h3>
+      <h3 className="text-3xl font-semibold text-indigo-600 mb-6 border-b-2 border-indigo-500 pb-2">Health Meter</h3>
 
       {/* Container for the side-by-side layout */}
       <div className="flex justify-between space-x-10">
