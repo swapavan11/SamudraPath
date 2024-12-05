@@ -94,8 +94,8 @@ const HomePage =()=>{
     
     <div className="flex flex-col h-screen">
     <Navbar />
-    <div className="flex flex-1">
-    <div className="w-3/15">
+    <div className="flex flex-1 ">
+    <div className="w-3/15  ">
       <Sidebar
         source={source}
         setSource={setSource}
