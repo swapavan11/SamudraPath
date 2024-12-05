@@ -5,19 +5,19 @@ import Map, { Marker, Source, Layer } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import ShipHealth from "./ShipHealth";
 
-// Sample routeCoordinates
+// Sample routeCoordinates in JSON format with latitude and longitude
 const routeCoordinates = [
-  [72.8502, 18.9601],
-  [73.28888888888889, 15.777777777777786],
-  [74.95555555555555, 11.866666666666674],
-  [74.97777777777779, 11.844444444444449],
-  [76.2, 9.044444444444451],
-  [76.22222222222223, 9.022222222222226],
-  [76.33333333333334, 8.733333333333334],
-  [76.6888888888889, 8.288888888888891],
-  [76.77777777777777, 8.177777777777777],
-  [78.97777777777779, 6.0],
-  [79.8464, 6.9404],
+  { latitude: 18.9601, longitude: 72.8502 },
+  { latitude: 15.777777777777786, longitude: 73.28888888888889 },
+  { latitude: 11.866666666666674, longitude: 74.95555555555555 },
+  { latitude: 11.844444444444449, longitude: 74.97777777777779 },
+  { latitude: 9.044444444444451, longitude: 76.2 },
+  { latitude: 9.022222222222226, longitude: 76.22222222222223 },
+  { latitude: 8.733333333333334, longitude: 76.33333333333334 },
+  { latitude: 8.288888888888891, longitude: 76.6888888888889 },
+  { latitude: 8.177777777777777, longitude: 76.77777777777777 },
+  { latitude: 6.0, longitude: 78.97777777777779 },
+  { latitude: 6.9404, longitude: 79.8464 }
 ];
 
 const MainLayout = () => (
@@ -114,7 +114,7 @@ const MainLayout = () => (
               type: "Feature",
               geometry: {
                 type: "LineString",
-                coordinates: routeCoordinates,
+                coordinates: routeCoordinates.map(point => [point.longitude, point.latitude]),
               },
             }}
           >
