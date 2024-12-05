@@ -137,7 +137,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainLayout />} />
+        <Route path="/" element={<HomePage/> }/>
         <Route path="/shiphealth" element={<ShipHealth />} />
       </Routes>
     </Router>

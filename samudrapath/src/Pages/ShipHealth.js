@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Header from "./components/Header";
-import ShipDetails from "./components/ShipDetails";
-import HealthBarometer from "./components/HealthBarometer";
-import LastMaintenanceHistory from "./components/LastMaintenanceHistory";
+import Header from "../components/Shiphealth/Header";
+import ShipDetails from "../components/Shiphealth/ShipDetails";
+import HealthBarometer from "../components/Shiphealth/HealthBarometer";
+import LastMaintenanceHistory from "../components/Shiphealth/LastMaintenanceHistory";
 
 const ShipHealth = () => {
   const [shipData, setShipData] = useState(null);
