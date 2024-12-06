@@ -3,8 +3,6 @@ import Navbar from "../components/Homepage/Navbar";
 import Sidebar from "../components/Homepage/Sidebar";
 import MapView from "../components/Homepage/MapView";
 import Papa from "papaparse";
-import * as turf from "@turf/turf"; // Import Turf for geometry operations
-import { bezierSpline, bbox } from "@turf/turf";
 
 const shipCategories = {
   "Cargo Ships": ["General Cargo Ship", "Refrigerated Cargo Ship", "Heavy Lift Cargo Ship"],
@@ -39,6 +37,17 @@ const HomePage = () => {
     latitude: 10.5,
     zoom: 5,
   });
+  
+  // const pirateGeoJSON = {
+  //   type: "FeatureCollection",
+  //   features: pirateCoordinates.map((coord) => ({
+  //     type: "Feature",
+  //     geometry: {
+  //       type: "Point",
+  //       coordinates: coord,
+  //     },
+  //   })),
+  // };
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -61,9 +70,10 @@ const HomePage = () => {
     }
   };
 
+
   useEffect(() => {
     // Fetch and parse CSV file
-    fetch("/path_safe.csv") // Adjust path as needed
+    fetch("/path_safe_smoothed.csv") // Adjust path as needed
       .then((response) => response.text())
       .then((data) => {
         Papa.parse(data, {
@@ -75,16 +85,64 @@ const HomePage = () => {
               parseFloat(row.Latitude),
             ]);
 
-            const line = turf.lineString(coordinates);
-            const smoothPath = bezierSpline(line, { resolution: 105000 });
-            setRouteCoordinates(smoothPath.geometry.coordinates);
-
-            const bounds = bbox(smoothPath);
-            setMapBounds({
-              longitude: (bounds[0] + bounds[2]) / 2,
-              latitude: (bounds[1] + bounds[3]) / 2,
-              zoom: 8,
-            });
+            setRouteCoordinates((prevRoutes) => [
+              ...prevRoutes,
+              { coordinates, color:"#FF5733" }
+            ]);
+          },
+        });
+      });
+    fetch("/path_fuel_smoothed.csv") // Adjust path as needed
+      .then((response) => response.text())
+      .then((data) => {
+        Papa.parse(data, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const coordinates = results.data.map((row) => [
+              parseFloat(row.Longitude),
+              parseFloat(row.Latitude),
+            ]);
+            setRouteCoordinates((prevRoutes) => [
+              ...prevRoutes,
+              { coordinates, color: "#0000FF" }
+            ]);
+          },
+        });
+      });
+    fetch("/path_short_smoothed.csv") // Adjust path as needed
+      .then((response) => response.text())
+      .then((data) => {
+        Papa.parse(data, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const coordinates = results.data.map((row) => [
+              parseFloat(row.Longitude),
+              parseFloat(row.Latitude),
+            ]);
+            setRouteCoordinates((prevRoutes) => [
+              ...prevRoutes,
+              { coordinates, color: "#FFA500" }
+            ]);
+          },
+        });
+      });
+    fetch("/path_weighted_smoothed.csv") // Adjust path as needed
+      .then((response) => response.text())
+      .then((data) => {
+        Papa.parse(data, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const coordinates = results.data.map((row) => [
+              parseFloat(row.Longitude),
+              parseFloat(row.Latitude),
+            ]);
+            setRouteCoordinates((prevRoutes) => [
+              ...prevRoutes,
+              { coordinates, color: "#00FFFF" }
+            ]);
           },
         });
       });
@@ -120,7 +178,7 @@ const HomePage = () => {
         <div className="flex-1 w-full h-full">
           <MapView
             handleMapClick={handleMapClick}
-            routeCoordinates={routeCoordinates}
+            routes={routeCoordinates}
             mapBounds={mapBounds}
           />
         </div>
