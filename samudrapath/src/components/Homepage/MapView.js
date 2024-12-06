@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+// import React from "react";
 import Map, { Source, Layer, NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const MapView = ({ handleMapClick, routes }) => {
+const MapView = ({ handleMapClick, routes, pirateCoordinates }) => {
   return (
     <Map
       initialViewState={{
@@ -15,6 +16,27 @@ const MapView = ({ handleMapClick, routes }) => {
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onClick={handleMapClick}
     >
+      <Source id="pirates" type="geojson" data={{
+        type: "FeatureCollection",
+        features: pirateCoordinates.map((coord) => ({
+        type: "Feature",
+        geometry: {
+        type: "Point",
+        coordinates: coord,
+      },
+      })),
+      }}>
+        <Layer
+          id="pirate-circles"
+          type="circle"
+          paint={{
+            "circle-color": "#FFC1C3", // Red color for pirate infestation
+            "circle-radius": 5, // Circle size
+            "circle-stroke-color": "#FF7074", // White border
+            "circle-stroke-width": 0.7, // Border width
+          }}
+        />
+      </Source>
       {routes.map((route, index) => (
         <Source
           key={index}

@@ -32,22 +32,23 @@ const HomePage = () => {
   const [destinationCoordinates, setDestinationCoordinates] = useState(null);
   const [carriageWeight, setCarriageWeight] = useState("");
   const [routeCoordinates, setRouteCoordinates] = useState([]);
+  const [pirateCoordinates, setPirateCoordinates] = useState([]);
   const [mapBounds, setMapBounds] = useState({
     longitude: 74.5,
     latitude: 10.5,
     zoom: 5,
   });
   
-  // const pirateGeoJSON = {
-  //   type: "FeatureCollection",
-  //   features: pirateCoordinates.map((coord) => ({
-  //     type: "Feature",
-  //     geometry: {
-  //       type: "Point",
-  //       coordinates: coord,
-  //     },
-  //   })),
-  // };
+  const pirateGeoJSON = {
+    type: "FeatureCollection",
+    features: pirateCoordinates.map((coord) => ({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: coord,
+      },
+    })),
+  };
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -72,6 +73,23 @@ const HomePage = () => {
 
 
   useEffect(() => {
+    fetch("/filtered_coordinates.csv") // Adjust path as needed
+      .then((response) => response.text())
+      .then((data) => {
+        Papa.parse(data, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const coordinates = results.data.map((row) => [
+              parseFloat(row.longitude),
+              parseFloat(row.latitude),
+            ]);
+
+            setPirateCoordinates(coordinates);
+          },
+        });
+      });
+
     // Fetch and parse CSV file
     fetch("/path_safe_smoothed.csv") // Adjust path as needed
       .then((response) => response.text())
@@ -180,6 +198,7 @@ const HomePage = () => {
             handleMapClick={handleMapClick}
             routes={routeCoordinates}
             mapBounds={mapBounds}
+            pirateCoordinates={pirateCoordinates}
           />
         </div>
       </div>
