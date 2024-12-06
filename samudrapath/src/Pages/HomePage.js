@@ -38,7 +38,7 @@ const HomePage = () => {
     latitude: 10.5,
     zoom: 5,
   });
-  
+
   const pirateGeoJSON = {
     type: "FeatureCollection",
     features: pirateCoordinates.map((coord) => ({
@@ -169,40 +169,36 @@ const HomePage = () => {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex flex-1">
-        <div className="w-3/15">
-          <Sidebar
-            source={source}
-            setSource={setSource}
-            destination={destination}
-            setDestination={setDestination}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-            selectedSubtype={selectedSubtype}
-            setSelectedSubtype={setSelectedSubtype}
-            departureDate={departureDate}
-            setDepartureDate={setDepartureDate}
-            departureTime={departureTime}
-            setDepartureTime={setDepartureTime}
-            shipCategories={shipCategories}
-            carriageWeight={carriageWeight}
-            setCarriageWeight={setCarriageWeight}
-            handleCategoryChange={handleCategoryChange}
-            handleSubtypeChange={handleSubtypeChange}
-            setSourceCoordinates={setSourceCoordinates}
-            setDestinationCoordinates={setDestinationCoordinates}
-          />
-        </div>
-        <div className="flex-1 w-full h-full">
-          <MapView
-            handleMapClick={handleMapClick}
+      <div className="flex flex-row flex-grow overflow-hidden">
+        <Sidebar
+          source={source}
+          setSource={setSource}
+          destination={destination}
+          setDestination={setDestination}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          selectedSubtype={selectedSubtype}
+          setSelectedSubtype={setSelectedSubtype}
+          departureDate={departureDate}
+          setDepartureDate={setDepartureDate}
+          departureTime={departureTime}
+          setDepartureTime={setDepartureTime}
+          shipCategories={shipCategories}
+          carriageWeight={carriageWeight}
+          setCarriageWeight={setCarriageWeight}
+          handleCategoryChange={handleCategoryChange}
+          handleSubtypeChange={handleSubtypeChange}
+          setSourceCoordinates={setSourceCoordinates}
+          setDestinationCoordinates={setDestinationCoordinates}
+        />
+        <MapView
+          handleMapClick={handleMapClick}
             routes={routeCoordinates}
-            mapBounds={mapBounds}
+          mapBounds={mapBounds}
             pirateCoordinates={pirateCoordinates}
-          />
+        />
         </div>
       </div>
-    </div>
   );
 };
 
