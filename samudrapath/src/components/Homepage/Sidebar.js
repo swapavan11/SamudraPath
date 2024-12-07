@@ -8,10 +8,11 @@ import {
   FaSearch,
   FaShip,
   FaWeightHanging,
-  FaList,
+  FaList, 
   FaWeight,
   FaVolleyballBall,
   FaChartArea,
+  FaBootstrap,
 } from "react-icons/fa";
 import Modal from "./RouteDetails";
 
@@ -169,7 +170,7 @@ const Sidebar = ({
             {/* Ship Category Dropdown */}
             <div className="space-y-1">
               <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                Select Ship Category
+                <FaShip/>Select Ship Category
               </label>
               <select
                 className="w-full bg-white p-2 rounded-md shadow-md focus:outline-none h-9"
@@ -299,11 +300,12 @@ const Sidebar = ({
 
             
             {/* Efficiency */} 
-            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <FaChartArea /> Enter Efficiencies for each
-              </label>  
+            <p className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-0">
+              <FaChartArea /> Enter Efficiencies for each
+            </p>
+
           {/* Inputs in a horizontal flex */}
-          <div className="flex space-x-4">
+          <div className="flex space-x-3">
             {/* Hull */}
             <div className="flex-1">
               <label className="text-sm font-semibold text-gray-700">Hull (ηₕ) </label>
