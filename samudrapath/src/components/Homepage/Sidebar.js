@@ -11,6 +11,7 @@ import {
   FaList,
   FaWeight,
 } from "react-icons/fa";
+import Modal from "./RouteDetails";
 
 const Sidebar = ({
   source,
@@ -32,6 +33,7 @@ const Sidebar = ({
   handleSubtypeChange,
   setSourceCoordinates,
   setDestinationCoordinates,
+  routes
 }) => {
   const [activeTab, setActiveTab] = useState("details");
   const [safetyWeight, setSafetyWeight] = useState(0);
@@ -39,6 +41,33 @@ const Sidebar = ({
   const [distanceWeight, setDistanceWeight] = useState(0);
   const [showCustomizedRoute, setShowCustomizedRoute] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const mapImages = [
+    "https://via.placeholder.com/150?text=Map1",
+    "https://via.placeholder.com/150?text=Map2",
+    "https://via.placeholder.com/150?text=Map3",
+    "https://via.placeholder.com/150?text=Map4",
+  ];
+
+  // console.log(routes)
+  let routeDetails = {}
+  if (!routes || routes.length === 0) {
+    routeDetails = {
+      fuelCost: "$500",
+      duration: "10 hours",
+      safetyIndex: "8.5",
+    };
+  } else {
+    routeDetails = {
+      fuelCost: "$500",
+      duration: "10 hours",
+      safetyIndex: "8.5",
+      coordinates:
+        routes[0].coordinates,
+    };
+  }
+
 
   const mockRoutes = [
     { id: 1, route: "Route A", description: "Source to Destination via Path A" },
@@ -225,8 +254,19 @@ const Sidebar = ({
               key={route.id}
                 className="p-4 bg-white rounded-md shadow-md hover:shadow-lg transition"
               >
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
+              >View Details</button>
                 <h3 className="text-lg font-bold">{route.route}</h3>
                 <p className="text-gray-700">{route.description}</p>
+
+                <Modal
+                  isOpen={isModalOpen}
+                  closeModal={() => setIsModalOpen(false)}
+                  mapImages={mapImages}
+                  routeDetails={routeDetails}
+                />
               </div>
             ))}
 

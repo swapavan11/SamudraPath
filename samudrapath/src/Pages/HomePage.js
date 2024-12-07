@@ -38,17 +38,7 @@ const HomePage = () => {
     latitude: 10.5,
     zoom: 5,
   });
-
-  const pirateGeoJSON = {
-    type: "FeatureCollection",
-    features: pirateCoordinates.map((coord) => ({
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: coord,
-      },
-    })),
-  };
+  
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -190,12 +180,13 @@ const HomePage = () => {
           handleSubtypeChange={handleSubtypeChange}
           setSourceCoordinates={setSourceCoordinates}
           setDestinationCoordinates={setDestinationCoordinates}
+          routes={routeCoordinates}
         />
         <MapView
           handleMapClick={handleMapClick}
-            routes={routeCoordinates}
+          routes={routeCoordinates}
           mapBounds={mapBounds}
-            pirateCoordinates={pirateCoordinates}
+          pirateCoordinates={pirateCoordinates}
         />
         </div>
       </div>
