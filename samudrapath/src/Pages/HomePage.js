@@ -3,7 +3,6 @@ import Navbar from "../components/Homepage/Navbar";
 import Sidebar from "../components/Homepage/Sidebar";
 import MapView from "../components/Homepage/MapView";
 import Papa from "papaparse";
-
 const shipCategories = {
   "Cargo Ships": ["General Cargo Ship", "Refrigerated Cargo Ship", "Heavy Lift Cargo Ship"],
   Tankers: ["Crude Oil Tanker", "Product Tanker", "Chemical Tanker"],
@@ -21,6 +20,8 @@ const shipCategories = {
   Tugboats: ["Harbor Tug", "Ocean-going Tug"],
 };
 
+
+
 const HomePage = () => {
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
@@ -31,6 +32,15 @@ const HomePage = () => {
   const [sourceCoordinates, setSourceCoordinates] = useState(null);
   const [destinationCoordinates, setDestinationCoordinates] = useState(null);
   const [carriageWeight, setCarriageWeight] = useState("");
+  const [shipDisplacement, setShipDisplacement] = useState("");
+  const [frontalArea , setFrontalArea] = useState("");
+  const [hullEfficiency , setHullEfficiency] = useState("");
+  const [propellerEfficiency , setPropellerEfficiency] = useState("");
+  const [engineShaftEfficiency , setEngineShaftEfficiency] = useState("");
+  const [heightAboveSea , setHeightAboveSea] = useState("");
+  const [resonantPeriod , setResonantPeriod] = useState("");
+  const [csfoc , setCsfoc] = useState("");
+  
   const [routes, setRoutes] = useState([
     { id: 1, coordinates: [], color: "#00ff00", visible: true, name: "Route A", description: "Description of Route A" },
     { id: 2, coordinates: [], color: "#0000FF", visible: true, name: "Route B", description: "Description of Route B" },
@@ -183,9 +193,27 @@ const HomePage = () => {
           handleCategoryChange={handleCategoryChange}
           handleSubtypeChange={handleSubtypeChange}
           setSourceCoordinates={setSourceCoordinates}
-          setDestinationCoordinates={setDestinationCoordinates}
+          setDestinationCoordinates={setDestinationCoordinates} 
           routes={routes}
-          updateVisibility={updateVisibility}
+          updateVisibility={updateVisibility}  
+          shipDisplacement={shipDisplacement}
+          setShipDisplacement={setShipDisplacement}
+          frontalArea={frontalArea}
+          setFrontalArea={setFrontalArea}
+          hullEfficiency={hullEfficiency}
+          setHullEfficiency={setHullEfficiency}  
+          propellerEfficiency={propellerEfficiency}
+          setPropellerEfficiency={setPropellerEfficiency}
+          engineShaftEfficiency={engineShaftEfficiency}
+          setEngineShaftEfficiency={setEngineShaftEfficiency}
+          resonantPeriod={resonantPeriod}
+          setResonantPeriod={setResonantPeriod}
+          heightAboveSea={heightAboveSea}
+          setHeightAboveSea={setHeightAboveSea}
+          csfoc={csfoc}
+          setCsfoc={setCsfoc}
+
+  
         />
         <MapView
           handleMapClick={handleMapClick}

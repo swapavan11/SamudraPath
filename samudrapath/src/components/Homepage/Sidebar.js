@@ -10,6 +10,8 @@ import {
   FaWeightHanging,
   FaList,
   FaWeight,
+  FaVolleyballBall,
+  FaChartArea,
 } from "react-icons/fa";
 import Modal from "./RouteDetails";
 
@@ -28,13 +30,29 @@ const Sidebar = ({
   setDepartureTime,
   shipCategories,
   carriageWeight,
+  shipDisplacement,
+  setShipDisplacement,
   setCarriageWeight,
   handleCategoryChange,
   handleSubtypeChange,
   setSourceCoordinates,
   setDestinationCoordinates,
   routes,
-  updateVisibility
+  updateVisibility,
+  frontalArea,
+  setFrontalArea,
+  hullEfficiency,
+  setHullEfficiency,
+  propellerEfficiency,
+  setPropellerEfficiency,
+  engineShaftEfficiency,
+  setEngineShaftEfficiency,
+  resonantPeriod,
+  setResonantPeriod,
+  heightAboveSea,
+  setHeightAboveSea,
+  csfoc,
+  setCsfoc
 }) => {
   const [activeTab, setActiveTab] = useState("details");
   const [safetyWeight, setSafetyWeight] = useState(0);
@@ -191,16 +209,146 @@ const Sidebar = ({
             {/* Carriage Weight */}
             <div className="space-y-1">
               <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <FaWeightHanging /> Carriage Weight
+                <FaWeightHanging /> Carriage Weight (tonnes)
               </label>
               <input
                 type="number"
-                placeholder="Enter Carriage Weight in kg"
+                placeholder="Enter Carriage Weight in tonnes"
                 value={carriageWeight}
                 onChange={(e) => setCarriageWeight(e.target.value)}
                 className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
               />
             </div>
+
+            {/* Ship displacement */}
+            <div className="space-y-1">
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                <FaWeight /> Ship Displaement (tonnes)
+              </label>
+              <input
+                type="number"
+                placeholder="Enter ship displacement in tonnes"
+                value={shipDisplacement}
+                onChange={(e) => setShipDisplacement(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+              />
+            </div>
+
+            {/* FrontalArea*/}
+            <div className="space-y-1">
+              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                <FaChartArea /> Frontal Area (m²)
+              </label>
+              <input
+                type="number"
+                placeholder="Enter Frontal Area in m²"
+                value={frontalArea}
+                onChange={(e) => setFrontalArea(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+              />
+            </div>
+
+            
+            {/* Fuel Consumption */}
+            <div className="flex-1">
+              <label className="text-sm font-semibold text-gray-700">Fuel Consumption per Hours (gallons) </label>
+              {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
+              <input
+                type="number"
+                value={csfoc}
+                placeholder="Enter fuel consumption per hour"
+                onChange={(e) => setCsfoc(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"  
+              />
+            </div> 
+
+
+
+            
+            {/* resonant period and height above sea*/}
+          {/* Inputs in a horizontal flex */}
+          <div className="flex space-x-4">
+ 
+            {/*resonantPeriod*/}
+            <div className="flex-1">
+              <label className="text-sm font-semibold text-gray-700">Resonant Period (sec) </label>
+              <input
+                type="number"
+                value={resonantPeriod}
+                placeholder="Resonant period in seconds"
+                onChange={(e) => setResonantPeriod(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8" 
+                min="0"
+              />
+            </div>
+
+            {/* Height above sea*/}
+            <div className="flex-1">
+              <label className="text-sm font-semibold text-gray-700">Height above sea (m) </label>
+              {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
+              <input
+                type="number"
+                value={heightAboveSea}
+                placeholder="Height of ship above sea"
+                onChange={(e) => setHeightAboveSea(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8" 
+                min="0"
+              />
+            </div>
+          </div>
+
+            
+            {/* Efficiency */} 
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                <FaChartArea /> Enter Efficiencies for each
+              </label>  
+          {/* Inputs in a horizontal flex */}
+          <div className="flex space-x-4">
+            {/* Hull */}
+            <div className="flex-1">
+              <label className="text-sm font-semibold text-gray-700">Hull (ηₕ) </label>
+              <input
+                type="number"
+                value={hullEfficiency}
+                placeholder="Efficiency"
+                onChange={(e) => setHullEfficiency(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                step="0.01"
+                min="0"
+              />
+            </div>
+
+            {/* Propeller */}
+            <div className="flex-1">
+              <label className="text-sm font-semibold text-gray-700">Propeller (ηₚ) </label>
+              <input
+                type="number"
+                value={propellerEfficiency}
+                placeholder="Efficiency"
+                onChange={(e) => setPropellerEfficiency(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                step="0.01"
+                min="0"
+              />
+            </div>
+
+            {/* Engine Shaft  */}
+            <div className="flex-1">
+              <label className="text-sm font-semibold text-gray-700">Engine Shaft </label>
+              {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
+              <input
+                type="number"
+                value={engineShaftEfficiency}
+                placeholder="Efficiency"
+                onChange={(e) => setEngineShaftEfficiency(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                step="0.01"
+                min="0"
+              />
+            </div>
+          </div>
+            {/* Efficiency */} 
+ 
 
             {/* Departure Date and Time */}
             <div className="flex space-x-4">
@@ -230,7 +378,7 @@ const Sidebar = ({
 
             {/* Find Routes Button */}
             <button
-              className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10"
+              className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10 "
               onClick={() => setActiveTab("routes")}
             >
               <FaRoute /> Find Optimized Routes
