@@ -33,7 +33,8 @@ const Sidebar = ({
   handleSubtypeChange,
   setSourceCoordinates,
   setDestinationCoordinates,
-  routes
+  routes,
+  updateVisibility
 }) => {
   const [activeTab, setActiveTab] = useState("details");
   const [safetyWeight, setSafetyWeight] = useState(0);
@@ -50,7 +51,6 @@ const Sidebar = ({
     "https://via.placeholder.com/150?text=Map4",
   ];
 
-  // console.log(routes)
   let routeDetails = {}
   if (!routes || routes.length === 0) {
     routeDetails = {
@@ -67,13 +67,6 @@ const Sidebar = ({
         routes[0].coordinates,
     };
   }
-
-
-  const mockRoutes = [
-    { id: 1, route: "Route A", description: "Source to Destination via Path A" },
-    { id: 2, route: "Route B", description: "Source to Destination via Path B" },
-    { id: 3, route: "Route C", description: "Source to Destination via Path C" },
-  ];
 
   const handleWeightSubmit = () => {
     const totalWeight = parseFloat(safetyWeight) + parseFloat(fuelWeight) + parseFloat(distanceWeight);
@@ -249,11 +242,17 @@ const Sidebar = ({
         {activeTab === "routes" && (
           <div className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold">Respective Optimized Routes</h2>
-            {mockRoutes.map((route) => (
+            {routes.map((route) => (
               <div
               key={route.id}
                 className="p-4 bg-white rounded-md shadow-md hover:shadow-lg transition"
               >
+              <input
+                type="checkbox"
+                checked={route.visible}
+                onChange={() => updateVisibility(route.id, !route.visible)}
+                className="mr-2"
+              />
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
@@ -269,7 +268,6 @@ const Sidebar = ({
                 />
               </div>
             ))}
-
             {/* Weight Inputs for Customized Route */}
             <h2 className="text-xl font-semibold">Custom Weighted Route</h2>
             <h2 className="text-l font-semibold text-gray-800">Enter Weights for each</h2>
@@ -330,8 +328,6 @@ const Sidebar = ({
             </button>
 
         </div>
-
-
             {/* Customized Weight Path */}
             {showCustomizedRoute && (
               <div className="mt-6 p-4 bg-teal-100 rounded-md shadow-md">

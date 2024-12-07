@@ -31,15 +31,14 @@ const HomePage = () => {
   const [sourceCoordinates, setSourceCoordinates] = useState(null);
   const [destinationCoordinates, setDestinationCoordinates] = useState(null);
   const [carriageWeight, setCarriageWeight] = useState("");
-  const [routeCoordinates, setRouteCoordinates] = useState([]);
+  const [routes, setRoutes] = useState([
+    { id: 1, coordinates: [], color: "#00ff00", visible: true, name: "Route A", description: "Description of Route A" },
+    { id: 2, coordinates: [], color: "#0000FF", visible: true, name: "Route B", description: "Description of Route B" },
+    { id: 3, coordinates: [], color: "#FFA500", visible: true, name: "Route C", description: "Description of Route C" },
+    { id: 4, coordinates: [], color: "#00FFFF", visible: true, name: "Route D", description: "Description of Route D" },
+  ]);
   const [pirateCoordinates, setPirateCoordinates] = useState([]);
-  const [mapBounds, setMapBounds] = useState({
-    longitude: 74.5,
-    latitude: 10.5,
-    zoom: 5,
-  });
   
-
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
     setSelectedSubtype("");
@@ -59,6 +58,24 @@ const HomePage = () => {
       setDestinationCoordinates({ lat, lng });
       setDestination(`${lat}, ${lng}`);
     }
+  };
+
+    // Function to update coordinates of a route by id
+  const updateCoordinates = (id, newCoordinates) => {
+    setRoutes((prevRoutes) =>
+      prevRoutes.map((route) =>
+        route.id === id ? { ...route, coordinates: newCoordinates } : route
+      )
+    );
+  };
+
+  // Function to update visibility of a route by id
+  const updateVisibility = (id, visibility) => {
+    setRoutes((prevRoutes) =>
+      prevRoutes.map((route) =>
+        route.id === id ? { ...route, visible: visibility } : route
+      )
+    );
   };
 
 
@@ -92,11 +109,7 @@ const HomePage = () => {
               parseFloat(row.Longitude),
               parseFloat(row.Latitude),
             ]);
-
-            setRouteCoordinates((prevRoutes) => [
-              ...prevRoutes,
-              { coordinates, color:"#00ff00" }
-            ]);
+            updateCoordinates(1, coordinates)
           },
         });
       });
@@ -111,10 +124,7 @@ const HomePage = () => {
               parseFloat(row.Longitude),
               parseFloat(row.Latitude),
             ]);
-            setRouteCoordinates((prevRoutes) => [
-              ...prevRoutes,
-              { coordinates, color: "#0000FF" }
-            ]);
+            updateCoordinates(2, coordinates)
           },
         });
       });
@@ -129,10 +139,7 @@ const HomePage = () => {
               parseFloat(row.Longitude),
               parseFloat(row.Latitude),
             ]);
-            setRouteCoordinates((prevRoutes) => [
-              ...prevRoutes,
-              { coordinates, color: "#FFA500" }
-            ]);
+            updateCoordinates(3, coordinates)
           },
         });
       });
@@ -147,10 +154,7 @@ const HomePage = () => {
               parseFloat(row.Longitude),
               parseFloat(row.Latitude),
             ]);
-            setRouteCoordinates((prevRoutes) => [
-              ...prevRoutes,
-              { coordinates, color: "#00FFFF" }
-            ]);
+            updateCoordinates(4, coordinates)
           },
         });
       });
@@ -180,12 +184,12 @@ const HomePage = () => {
           handleSubtypeChange={handleSubtypeChange}
           setSourceCoordinates={setSourceCoordinates}
           setDestinationCoordinates={setDestinationCoordinates}
-          routes={routeCoordinates}
+          routes={routes}
+          updateVisibility={updateVisibility}
         />
         <MapView
           handleMapClick={handleMapClick}
-          routes={routeCoordinates}
-          mapBounds={mapBounds}
+          routes={routes}
           pirateCoordinates={pirateCoordinates}
         />
         </div>

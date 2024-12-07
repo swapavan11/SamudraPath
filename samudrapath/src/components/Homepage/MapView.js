@@ -9,10 +9,10 @@ const MapView = ({ handleMapClick, routes, pirateCoordinates }) => {
       initialViewState={{
         longitude: 74.5,
         latitude: 10.5,
-        zoom: 5,
+        zoom: 2.5,
       }}
       style={{ width: "100%", height: "100%" }}
-      // mapStyle="mapbox://styles/mapbox/streets-v11"
+      // mapStyle="mapbox://styles/mapbox/streets-v11"    // Don't remove this comment
       mapStyle="mapbox://styles/jinx83/cm4daovqb01km01si5zzlhdc4"
       mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onClick={handleMapClick}
@@ -39,7 +39,7 @@ const MapView = ({ handleMapClick, routes, pirateCoordinates }) => {
         />
       </Source>
       {routes.map((route, index) => (
-        <Source
+        route.visible && <Source
           key={index}
           id={`route-${index}`}
           type="geojson"
