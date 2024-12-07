@@ -105,7 +105,7 @@ const HomePage = () => {
 
             setRouteCoordinates((prevRoutes) => [
               ...prevRoutes,
-              { coordinates, color:"#FF5733" }
+              { coordinates, color:"#00ff00" }
             ]);
           },
         });
