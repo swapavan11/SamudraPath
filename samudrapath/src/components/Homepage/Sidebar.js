@@ -305,7 +305,7 @@ const Sidebar = ({
             </p>
 
           {/* Inputs in a horizontal flex */}
-          <div className="flex space-x-3">
+          <div className="flex space-x-3 mt-0">
             {/* Hull */}
             <div className="flex-1">
               <label className="text-sm font-semibold text-gray-700">Hull (ηₕ) </label>
@@ -420,8 +420,11 @@ const Sidebar = ({
             ))}
             {/* Weight Inputs for Customized Route */}
             <h2 className="text-xl font-semibold">Custom Weighted Route</h2>
-            <h2 className="text-l font-semibold text-gray-800">Enter Weights for each</h2>
-            <div className="space-y-4 mt-6">
+            {/* <h2 className="text-l font-semibold text-gray-800">Enter Weights for each</h2> */}
+            <p className="text-l font-semibold text-gray-800 flex items-center gap-2 mb-0">
+              Enter Weights for each
+            </p>
+            <div className="space-y-4 mt-0">
           {/* Inputs in a horizontal flex */}
           <div className="flex space-x-4">
             {/* Safety Weight */}
