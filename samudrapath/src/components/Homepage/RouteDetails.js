@@ -4,10 +4,10 @@ import "tailwindcss/tailwind.css"; // Make sure tailwind is installed
 
 const Modal = ({ isOpen, closeModal, mapImages, routeDetails }) => {
   const tempImg = [
-    "/indian_ocean.jpg",
-    "/logo192.png",
-    "/logo512.png",
-    // "/indian_ocean.jpg",
+    "/wind_speed_map.svg",
+    "/wave_height_map.svg",
+    "/usurf_map.svg",
+    "/vsurf_map.svg",
   ];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 

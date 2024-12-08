@@ -11,6 +11,7 @@
     "@turf/jsts": "^2.7.1",
     "@turf/turf": "^7.1.0",
     "axios": "^1.7.9",
+    "jszip": "^3.10.1",
     "mapbox-gl": "^3.8.0",
     "papaparse": "^5.4.1",
     "react": "^18.3.1",
