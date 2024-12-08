@@ -459,14 +459,14 @@ const Sidebar = ({
             {routes.map((route) => (
               <div
                 key={route.id}
-                className="p-4 bg-white rounded-md shadow-md hover:shadow-lg transition"
+                className="p-3 bg-white rounded-md shadow-md hover:shadow-lg transition"
                 
               >
               
 
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-2xl font-semibold">{route.name}</h3>
+                <h3 className="text-xl font-semibold">{route.name}</h3>
                 {/* <p className="text-gray-700">{route.description}</p> */}
               </div>
 
@@ -475,20 +475,19 @@ const Sidebar = ({
                 onClick={() => updateVisibility(route.id, !route.visible)}
               >
                 {route.visible ? (
-              <FaEye className="text-3xl " style={{color: route.color}}/>
+                <FaEye className="text-2xl " style={{color: route.color}}/>
             ) : (
-              <FaEyeSlash className="text-3xl text-gray-400" />
+              <FaEyeSlash className="text-2xl text-gray-400" />
             )}
               </button>
             </div>
 
             <div className="flex items-center gap-4 mt-3">
               <button
-                onClick={() => setIsModalOpen(true)}
-                className="h-12 px-6 bg-white text-Black rounded-lg   hover:bg-black hover:text-white hover:border-0 flex items-center justify-center ease-linear duration-300 hover:border-none"
+                className="px-6 bg-white text-sm text-black rounded-lg hover:bg-teal-600 hover:text-white flex items-center justify-center ease-linear duration-200 hover:border-2 hover:border-teal-600"
                 style={{
-                  borderWidth: "3px",
-                  borderColor: route.color,
+                  borderWidth: "2px",
+                  borderColor: route.color, // Dynamically set the border color
                 }}
                 // style={{background:route.color}}
               >
@@ -496,13 +495,14 @@ const Sidebar = ({
               </button>
 
               <button
-                className="h-12 px-6 bg-white text-Black rounded-lg   hover:bg-black hover:text-white hover:border-0 flex items-center justify-center hover:border-none  ease-linear duration-300"
-                style={{
-                  borderWidth: "3px",
-                  borderColor: route.color,
-                }}
-                onClick={handleSeePosition}
-              >
+               className="px-6 bg-white text-sm text-black rounded-lg hover:bg-teal-600 hover:text-white flex items-center justify-center ease-linear duration-200 hover:border-2 hover:border-teal-600"
+               style={{
+                 borderWidth: "2px",
+                 borderColor: route.color, // Dynamically set the border color
+               }}
+               onClick={handleSeePosition}
+             >
+              
                 Position After 3 Hours
               </button>
             
