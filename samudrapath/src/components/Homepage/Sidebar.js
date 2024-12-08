@@ -160,7 +160,11 @@ const Sidebar = ({
 
         {!isLoading && activeTab === "details" && (
           
-          <div className="space-y-4 max-h-screen overflow-auto p-4">
+          <div className="space-y-4" style={{
+            maxHeight: "calc(100vh - 100px)", // Adjusts to viewport height
+            overflowY: "auto", // Ensures vertical scroll
+          }}
+          >
             {/* Source Input */}
             <form
               onSubmit={(e) => {
@@ -434,7 +438,10 @@ const Sidebar = ({
 
         {/* Routes Tab */}
         {!isLoading && activeTab === "routes" && (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4" style={{
+            maxHeight: "calc(100vh - 100px)", // Adjusts to viewport height
+            overflowY: "auto", // Ensures vertical scroll
+          }}>
             <h2 className="text-xl font-semibold">
               Respective Optimized Routes
             </h2>
