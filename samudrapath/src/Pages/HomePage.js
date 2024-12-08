@@ -42,10 +42,10 @@ const HomePage = () => {
   const [csfoc , setCsfoc] = useState("");
   
   const [routes, setRoutes] = useState([
-    { id: 1, coordinates: [], color: "#00ff00", visible: true, name: "Route A", description: "Description of Route A" },
-    { id: 2, coordinates: [], color: "#0000FF", visible: true, name: "Route B", description: "Description of Route B" },
-    { id: 3, coordinates: [], color: "#FFA500", visible: true, name: "Route C", description: "Description of Route C" },
-    { id: 4, coordinates: [], color: "#00FFFF", visible: true, name: "Route D", description: "Description of Route D" },
+    { id: 1, coordinates: [], color: "#00ff00", visible: true, name: "Safest Path", description: "Safest Path" },
+    { id: 2, coordinates: [], color: "#0000FF", visible: true, name: "Fuel Efficient Path", description: "Fuel Efficient Path" },
+    { id: 3, coordinates: [], color: "#FFA500", visible: true, name: "Shortest Path", description: "Shortest Path" },
+    { id: 4, coordinates: [], color: "#00FFFF", visible: true, name: "Optimal Route", description: "Equal Weight Optimal Route " },
   ]);
   const [pirateCoordinates, setPirateCoordinates] = useState([]);
   
