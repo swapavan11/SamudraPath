@@ -53,8 +53,11 @@ const Sidebar = ({
   heightAboveSea,
   setHeightAboveSea,
   csfoc,
-  setCsfoc
+  setCsfoc,
+
 }) => {
+ 
+  const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("details");
   const [safetyWeight, setSafetyWeight] = useState(0);
   const [fuelWeight, setFuelWeight] = useState(0);
@@ -62,6 +65,7 @@ const Sidebar = ({
   const [showCustomizedRoute, setShowCustomizedRoute] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
   const mapImages = [
     "https://via.placeholder.com/150?text=Map1",
@@ -98,6 +102,14 @@ const Sidebar = ({
     }
   };
 
+  const handleFindRoutes = () => {
+    setIsLoading(true); // Show loader
+    setTimeout(() => {
+      setIsLoading(false); // Hide loader after 5 seconds
+      setActiveTab("routes"); // Navigate to routes tab
+    }, 5000);
+  };
+
   return (
     <div className="flex h-screen" style={{ minWidth: "450px", maxWidth: "450px" }}>
       <nav className="w-1/6 bg-gray-600 text-white flex flex-col">
@@ -131,7 +143,14 @@ const Sidebar = ({
           `}
         </style>
 
-        {activeTab === "details" && (
+        {isLoading && (
+          <div className="flex flex-col items-center justify-center h-full">
+            <div className="loader mb-4 border-t-4 border-teal-500 rounded-full w-12 h-12 animate-spin"></div>
+            <p className="text-gray-700 font-medium">Calculating optimized routes...</p>
+          </div>
+        )}
+
+        {!isLoading && activeTab === "details" && (
           <div className="space-y-4">
             {/* Source Input */}
             <div className="space-y-1">
@@ -381,7 +400,8 @@ const Sidebar = ({
             {/* Find Routes Button */}
             <button
               className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10 "
-              onClick={() => setActiveTab("routes")}
+              // onClick={() => setActiveTab("routes")}
+              onClick={handleFindRoutes}
             >
               <FaRoute /> Find Optimized Routes
             </button>
@@ -389,7 +409,7 @@ const Sidebar = ({
         )}
 
         {/* Routes Tab */}
-        {activeTab === "routes" && (
+        {!isLoading && activeTab === "routes" && (
           <div className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold">Respective Optimized Routes</h2>
             {routes.map((route) => (
