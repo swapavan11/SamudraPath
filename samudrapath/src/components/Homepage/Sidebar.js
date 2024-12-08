@@ -484,6 +484,7 @@ const Sidebar = ({
 
             <div className="flex items-center gap-4 mt-3">
               <button
+              onClick={()=>setIsModalOpen(true)}
                 className="px-6 bg-white text-sm text-black rounded-lg hover:bg-teal-600 hover:text-white flex items-center justify-center ease-linear duration-200 hover:border-2 hover:border-teal-600"
                 style={{
                   borderWidth: "2px",
