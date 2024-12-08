@@ -4,15 +4,14 @@ import {
   FaMapPin,
   FaCalendarAlt,
   FaClock,
-  FaRoute,
-  FaSearch,
+  FaRoute, 
   FaShip,
   FaWeightHanging,
   FaList, 
-  FaWeight,
-  FaVolleyballBall,
-  FaChartArea,
-  FaBootstrap,
+  FaWeight, 
+  FaChartArea, 
+  FaEye, 
+  FaEyeSlash
 } from "react-icons/fa";
 import Modal from "./RouteDetails";
 
@@ -65,6 +64,7 @@ const Sidebar = ({
   const [showCustomizedRoute, setShowCustomizedRoute] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showRecalculateButton, setShowRecalculateButton] = useState(false);
   
 
   const mapImages = [
@@ -108,6 +108,17 @@ const Sidebar = ({
       setIsLoading(false); // Hide loader after 5 seconds
       setActiveTab("routes"); // Navigate to routes tab
     }, 5000);
+  };
+
+  const handleSeePosition = (routeId) => {
+    setShowRecalculateButton(true);
+    alert(`Showing position of Route ID: ${routeId} after 6 hours on the map.`);
+    // Logic to show the position on map goes here
+  };
+
+  const handleRecalculateRoute = (routeId) => {
+    alert(`Recalculating route from position after 6 hours for Route ID: ${routeId}`);
+    // Logic to recalculate the route goes here
   };
 
   return (
@@ -416,19 +427,66 @@ const Sidebar = ({
               <div
               key={route.id}
                 className="p-4 bg-white rounded-md shadow-md hover:shadow-lg transition"
+                
               >
-              <input
-                type="checkbox"
-                checked={route.visible}
-                onChange={() => updateVisibility(route.id, !route.visible)}
-                className="mr-2"
-              />
+              
+
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-2xl font-semibold">{route.name}</h3>
+                {/* <p className="text-gray-700">{route.description}</p> */}
+              </div>
+
+              <button
+                className="mr-4"
+                onClick={() => updateVisibility(route.id, !route.visible)}
+              >
+                {route.visible ? (
+              <FaEye className="text-3xl " style={{color: route.color}}/>
+            ) : (
+              <FaEyeSlash className="text-3xl text-gray-400" />
+            )}
+              </button>
+            </div>
+
+            <div className="flex items-center gap-4 mt-3">
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
-              >View Details</button>
-                <h3 className="text-lg font-bold">{route.route}</h3>
-                <p className="text-gray-700">{route.description}</p>
+                className="h-12 px-6 bg-white text-Black rounded-lg   hover:bg-black hover:text-white hover:border-0 flex items-center justify-center ease-linear duration-300 hover:border-none"
+                style={{
+                  borderWidth: "3px",
+                  borderColor: route.color,
+                }}
+                // style={{background:route.color}}
+              >
+                View Details
+              </button>
+
+              <button
+                className="h-12 px-6 bg-white text-Black rounded-lg   hover:bg-black hover:text-white hover:border-0 flex items-center justify-center hover:border-none  ease-linear duration-300"
+                style={{
+                  borderWidth: "3px",
+                  borderColor: route.color,
+                }}
+                onClick={handleSeePosition}
+              >
+                Position After 3 Hours
+              </button>
+            
+            </div>
+
+
+                {/* Conditionally render the "Recalculate Route" button */}
+                {showRecalculateButton && (
+                  <button
+                    className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10 mt-2"
+                    onClick={handleRecalculateRoute}
+                  >
+                    Recalculate Route
+                  </button>
+                )}
+
+
 
                 <Modal
                   isOpen={isModalOpen}
@@ -438,6 +496,8 @@ const Sidebar = ({
                 />
               </div>
             ))}
+
+            
             {/* Weight Inputs for Customized Route */}
             <h2 className="text-xl font-semibold">Custom Weighted Route</h2>
             {/* <h2 className="text-l font-semibold text-gray-800">Enter Weights for each</h2> */}
