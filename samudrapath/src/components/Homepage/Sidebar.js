@@ -8,7 +8,7 @@ import {
   FaSearch,
   FaShip,
   FaWeightHanging,
-  FaList, 
+  FaList,
   FaWeight,
   FaVolleyballBall,
   FaChartArea,
@@ -54,7 +54,6 @@ const Sidebar = ({
   setHeightAboveSea,
   csfoc,
   setCsfoc,
-
 }) => {
  
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +73,7 @@ const Sidebar = ({
     "https://via.placeholder.com/150?text=Map4",
   ];
 
-  let routeDetails = {}
+  let routeDetails = {};
   if (!routes || routes.length === 0) {
     routeDetails = {
       fuelCost: "$500",
@@ -86,13 +85,15 @@ const Sidebar = ({
       fuelCost: "$500",
       duration: "10 hours",
       safetyIndex: "8.5",
-      coordinates:
-        routes[0].coordinates,
+      coordinates: routes[0].coordinates,
     };
   }
 
   const handleWeightSubmit = () => {
-    const totalWeight = parseFloat(safetyWeight) + parseFloat(fuelWeight) + parseFloat(distanceWeight);
+    const totalWeight =
+      parseFloat(safetyWeight) +
+      parseFloat(fuelWeight) +
+      parseFloat(distanceWeight);
     if (totalWeight === 1) {
       setShowCustomizedRoute(true);
       setErrorMessage(""); // Clear any previous error messages
@@ -111,16 +112,23 @@ const Sidebar = ({
   };
 
   return (
-    <div className="flex h-screen" style={{ minWidth: "450px", maxWidth: "450px" }}>
+    <div
+      className="flex h-screen"
+      style={{ minWidth: "450px", maxWidth: "450px" }}
+    >
       <nav className="w-1/6 bg-gray-600 text-white flex flex-col">
         <button
-          className={`p-4 text-left hover:bg-teal-600 ${activeTab === "details" ? "bg-teal-700 drop-shadow-md" : ""}`}
+          className={`p-4 text-left hover:bg-teal-600 ${
+            activeTab === "details" ? "bg-teal-700 drop-shadow-md" : ""
+          }`}
           onClick={() => setActiveTab("details")}
         >
           <FaList /> Ship Details
         </button>
         <button
-          className={`p-4 text-left hover:bg-teal-600 ${activeTab === "routes" ? "bg-teal-700" : ""}`}
+          className={`p-4 text-left hover:bg-teal-600 ${
+            activeTab === "routes" ? "bg-teal-700" : ""
+          }`}
           onClick={() => setActiveTab("routes")}
         >
           <FaRoute /> Ship Routes
@@ -151,282 +159,302 @@ const Sidebar = ({
         )}
 
         {!isLoading && activeTab === "details" && (
-          <div className="space-y-4">
+          
+          <div className="space-y-4 max-h-screen overflow-auto p-4">
             {/* Source Input */}
-            <div className="space-y-1">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <FaMapMarkerAlt /> Source
-              </label>
-              <input
-                type="text"
-                placeholder="Enter source or click on map"
-                value={source}
-                onChange={(e) => {
-                  setSource(e.target.value);
-                  setSourceCoordinates(null);
-                }}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-              />
-            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setActiveTab("routes"); // Trigger your route logic here
+              }}
+              className="space-y-4"
+            >
+              <div className="space-y-1">
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                  <FaMapMarkerAlt /> Source
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter source or click on map"
+                  value={source}
+                  onChange={(e) => {
+                    setSource(e.target.value);
+                    setSourceCoordinates(null);
+                  }}
+                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                />
+              </div>
 
-            {/* Destination Input */}
-            <div className="space-y-1">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <FaMapPin /> Destination
-              </label>
-              <input
-                type="text"
-                placeholder="Enter destination or click on map"
-                value={destination}
-                onChange={(e) => {
-                  setDestination(e.target.value);
-                  setDestinationCoordinates(null);
-                }}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-              />
-            </div>
+              {/* Destination Input */}
+              <div className="space-y-1">
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                  <FaMapPin /> Destination
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter destination or click on map"
+                  value={destination}
+                  onChange={(e) => {
+                    setDestination(e.target.value);
+                    setDestinationCoordinates(null);
+                  }}
+                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                />
+              </div>
 
-            {/* Ship Category Dropdown */}
-            <div className="space-y-1">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <FaShip/>Select Ship Category
-              </label>
-              <select
-                className="w-full bg-white p-2 rounded-md shadow-md focus:outline-none h-9"
-                value={selectedCategory}
-                onChange={handleCategoryChange}
-              >
-                <option value="">-- Select Category --</option>
-                {Object.keys(shipCategories).map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Ship Subcategory Dropdown */}
-            <div className="space-y-1">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                Select Ship Subcategory
-              </label>
-              <select
-                className="w-full bg-white p-2 rounded-md shadow-md focus:outline-none h-9"
-                value={selectedSubtype}
-                onChange={handleSubtypeChange}
-                disabled={!selectedCategory}
-              >
-                <option value="">-- Select Subcategory --</option>
-                {selectedCategory &&
-                  shipCategories[selectedCategory].map((subtype) => (
-                    <option key={subtype} value={subtype}>
-                      {subtype}
+              {/* Ship Category Dropdown */}
+              <div className="space-y-1">
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                  <FaShip />
+                  Select Ship Category
+                </label>
+                <select
+                  className="w-full bg-white p-2 rounded-md shadow-md focus:outline-none h-9"
+                  value={selectedCategory}
+                  onChange={handleCategoryChange}
+                >
+                  <option value="">-- Select Category --</option>
+                  {Object.keys(shipCategories).map((category) => (
+                    <option key={category} value={category}>
+                      {category}
                     </option>
                   ))}
-              </select>
-            </div>
+                </select>
+              </div>
 
-            {/* Carriage Weight */}
-            <div className="space-y-1">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <FaWeightHanging /> Carriage Weight (tonnes)
-              </label>
-              <input
-                type="number"
-                placeholder="Enter Carriage Weight in tonnes"
-                value={carriageWeight}
-                onChange={(e) => setCarriageWeight(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-              />
-            </div>
-
-            {/* Ship displacement */}
-            <div className="space-y-1">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <FaWeight /> Ship Displaement (tonnes)
-              </label>
-              <input
-                type="number"
-                placeholder="Enter ship displacement in tonnes"
-                value={shipDisplacement}
-                onChange={(e) => setShipDisplacement(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-              />
-            </div>
-
-            {/* FrontalArea*/}
-            <div className="space-y-1">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <FaChartArea /> Frontal Area (m²)
-              </label>
-              <input
-                type="number"
-                placeholder="Enter Frontal Area in m²"
-                value={frontalArea}
-                onChange={(e) => setFrontalArea(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-              />
-            </div>
-
-            
-            {/* Fuel Consumption */}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Fuel Consumption per Hours (gallons) </label>
-              {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
-              <input
-                type="number"
-                value={csfoc}
-                placeholder="Enter fuel consumption per hour"
-                onChange={(e) => setCsfoc(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"  
-              />
-            </div> 
-
-
-
-            
-            {/* resonant period and height above sea*/}
-          {/* Inputs in a horizontal flex */}
-          <div className="flex space-x-4">
- 
-            {/*resonantPeriod*/}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Resonant Period (sec) </label>
-              <input
-                type="number"
-                value={resonantPeriod}
-                placeholder="Resonant period in seconds"
-                onChange={(e) => setResonantPeriod(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8" 
-                min="0"
-              />
-            </div>
-
-            {/* Height above sea*/}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Height above sea (m) </label>
-              {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
-              <input
-                type="number"
-                value={heightAboveSea}
-                placeholder="Height of ship above sea"
-                onChange={(e) => setHeightAboveSea(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8" 
-                min="0"
-              />
-            </div>
-          </div>
-
-            
-            {/* Efficiency */} 
-            <p className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-0">
-              <FaChartArea /> Enter Efficiencies for each
-            </p>
-
-          {/* Inputs in a horizontal flex */}
-          <div className="flex space-x-3 mt-0">
-            {/* Hull */}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Hull (ηₕ) </label>
-              <input
-                type="number"
-                value={hullEfficiency}
-                placeholder="Efficiency"
-                onChange={(e) => setHullEfficiency(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-                step="0.01"
-                min="0"
-              />
-            </div>
-
-            {/* Propeller */}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Propeller (ηₚ) </label>
-              <input
-                type="number"
-                value={propellerEfficiency}
-                placeholder="Efficiency"
-                onChange={(e) => setPropellerEfficiency(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-                step="0.01"
-                min="0"
-              />
-            </div>
-
-            {/* Engine Shaft  */}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Engine Shaft </label>
-              {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
-              <input
-                type="number"
-                value={engineShaftEfficiency}
-                placeholder="Efficiency"
-                onChange={(e) => setEngineShaftEfficiency(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-                step="0.01"
-                min="0"
-              />
-            </div>
-          </div>
-            {/* Efficiency */} 
- 
-
-            {/* Departure Date and Time */}
-            <div className="flex space-x-4">
-              <div className="flex-1 space-y-1">
+              {/* Ship Subcategory Dropdown */}
+              <div className="space-y-1">
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                  <FaCalendarAlt /> Departure Date
+                  Select Ship Subcategory
+                </label>
+                <select
+                  className="w-full bg-white p-2 rounded-md shadow-md focus:outline-none h-9"
+                  value={selectedSubtype}
+                  onChange={handleSubtypeChange}
+                  disabled={!selectedCategory}
+                >
+                  <option value="">-- Select Subcategory --</option>
+                  {selectedCategory &&
+                    shipCategories[selectedCategory].map((subtype) => (
+                      <option key={subtype} value={subtype}>
+                        {subtype}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              {/* Carriage Weight */}
+              <div className="space-y-1">
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                  <FaWeightHanging /> Carriage Weight (tonnes)
                 </label>
                 <input
-                  type="date"
-                  value={departureDate}
-                  onChange={(e) => setDepartureDate(e.target.value)}
+                  type="number"
+                  placeholder="Enter Carriage Weight in tonnes"
+                  value={carriageWeight}
+                  onChange={(e) => setCarriageWeight(e.target.value)}
                   className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
                 />
               </div>
-              <div className="flex-1 space-y-1">
+
+              {/* Ship displacement */}
+              <div className="space-y-1">
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                  <FaClock /> Departure Time
+                  <FaWeight /> Ship Displaement (tonnes)
                 </label>
                 <input
-                  type="time"
-                  value={departureTime}
-                  onChange={(e) => setDepartureTime(e.target.value)}
+                  type="number"
+                  placeholder="Enter ship displacement in tonnes"
+                  value={shipDisplacement}
+                  onChange={(e) => setShipDisplacement(e.target.value)}
                   className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
                 />
               </div>
-            </div>
 
-            {/* Find Routes Button */}
-            <button
-              className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10 "
-              // onClick={() => setActiveTab("routes")}
-              onClick={handleFindRoutes}
-            >
-              <FaRoute /> Find Optimized Routes
-            </button>
+              {/* FrontalArea*/}
+              <div className="space-y-1">
+                <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                  <FaChartArea /> Frontal Area (m²)
+                </label>
+                <input
+                  type="number"
+                  placeholder="Enter Frontal Area in m²"
+                  value={frontalArea}
+                  onChange={(e) => setFrontalArea(e.target.value)}
+                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                />
+              </div>
+
+              {/* Fuel Consumption */}
+              <div className="flex-1">
+                <label className="text-sm font-semibold text-gray-700">
+                  Fuel Consumption per Hours (gallons){" "}
+                </label>
+                {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
+                <input
+                  type="number"
+                  value={csfoc}
+                  placeholder="Enter fuel consumption per hour"
+                  onChange={(e) => setCsfoc(e.target.value)}
+                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                />
+              </div>
+
+              {/* resonant period and height above sea*/}
+              {/* Inputs in a horizontal flex */}
+              <div className="flex space-x-4">
+                {/*resonantPeriod*/}
+                <div className="flex-1">
+                  <label className="text-sm font-semibold text-gray-700">
+                    Resonant Period (sec){" "}
+                  </label>
+                  <input
+                    type="number"
+                    value={resonantPeriod}
+                    placeholder="Resonant period in seconds"
+                    onChange={(e) => setResonantPeriod(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                    min="0"
+                  />
+                </div>
+
+                {/* Height above sea*/}
+                <div className="flex-1">
+                  <label className="text-sm font-semibold text-gray-700">
+                    Height above sea (m){" "}
+                  </label>
+                  {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
+                  <input
+                    type="number"
+                    value={heightAboveSea}
+                    placeholder="Height of ship above sea"
+                    onChange={(e) => setHeightAboveSea(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                    min="0"
+                  />
+                </div>
+              </div>
+
+              {/* Efficiency */}
+              <p className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-0">
+                <FaChartArea /> Enter Efficiencies for each
+              </p>
+
+              {/* Inputs in a horizontal flex */}
+              <div className="flex space-x-3 mt-0">
+                {/* Hull */}
+                <div className="flex-1">
+                  <label className="text-sm font-semibold text-gray-700">
+                    Hull (ηₕ){" "}
+                  </label>
+                  <input
+                    type="number"
+                    value={hullEfficiency}
+                    placeholder="Efficiency"
+                    onChange={(e) => setHullEfficiency(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+
+                {/* Propeller */}
+                <div className="flex-1">
+                  <label className="text-sm font-semibold text-gray-700">
+                    Propeller (ηₚ){" "}
+                  </label>
+                  <input
+                    type="number"
+                    value={propellerEfficiency}
+                    placeholder="Efficiency"
+                    onChange={(e) => setPropellerEfficiency(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+
+                {/* Engine Shaft  */}
+                <div className="flex-1">
+                  <label className="text-sm font-semibold text-gray-700">
+                    Engine Shaft{" "}
+                  </label>
+                  {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
+                  <input
+                    type="number"
+                    value={engineShaftEfficiency}
+                    placeholder="Efficiency"
+                    onChange={(e) => setEngineShaftEfficiency(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+              </div>
+              {/* Efficiency */}
+
+              {/* Departure Date and Time */}
+              <div className="flex space-x-4">
+                <div className="flex-1 space-y-1">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <FaCalendarAlt /> Departure Date
+                  </label>
+                  <input
+                    type="date"
+                    value={departureDate}
+                    onChange={(e) => setDepartureDate(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                  />
+                </div>
+                <div className="flex-1 space-y-1">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <FaClock /> Departure Time
+                  </label>
+                  <input
+                    type="time"
+                    value={departureTime}
+                    onChange={(e) => setDepartureTime(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                  />
+                </div>
+              </div>
+
+              {/* Find Routes Button */}
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10"
+                // onClick={() => setActiveTab("routes")}
+                onClick={handleFindRoutes}
+              >
+                <FaRoute /> Find Optimized Routes
+              </button>
+            </form>
           </div>
         )}
 
         {/* Routes Tab */}
         {!isLoading && activeTab === "routes" && (
           <div className="flex flex-col gap-4">
-            <h2 className="text-xl font-semibold">Respective Optimized Routes</h2>
+            <h2 className="text-xl font-semibold">
+              Respective Optimized Routes
+            </h2>
             {routes.map((route) => (
               <div
-              key={route.id}
+                key={route.id}
                 className="p-4 bg-white rounded-md shadow-md hover:shadow-lg transition"
               >
-              <input
-                type="checkbox"
-                checked={route.visible}
-                onChange={() => updateVisibility(route.id, !route.visible)}
-                className="mr-2"
-              />
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
-              >View Details</button>
+                <input
+                  type="checkbox"
+                  checked={route.visible}
+                  onChange={() => updateVisibility(route.id, !route.visible)}
+                  className="mr-2"
+                />
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600"
+                >
+                  View Details
+                </button>
                 <h3 className="text-lg font-bold">{route.route}</h3>
                 <p className="text-gray-700">{route.description}</p>
 
@@ -445,70 +473,82 @@ const Sidebar = ({
               Enter Weights for each
             </p>
             <div className="space-y-4 mt-0">
-          {/* Inputs in a horizontal flex */}
-          <div className="flex space-x-4">
-            {/* Safety Weight */}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Safety </label>
-              <input
-                type="number"
-                value={safetyWeight}
-                onChange={(e) => setSafetyWeight(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-                step="0.01"
-                min="0"
-              />
+              {/* Inputs in a horizontal flex */}
+              <div className="flex space-x-4">
+                {/* Safety Weight */}
+                <div className="flex-1">
+                  <label className="text-sm font-semibold text-gray-700">
+                    Safety{" "}
+                  </label>
+                  <input
+                    type="number"
+                    value={safetyWeight}
+                    onChange={(e) => setSafetyWeight(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+
+                {/* Fuel Weight */}
+                <div className="flex-1">
+                  <label className="text-sm font-semibold text-gray-700">
+                    Fuel{" "}
+                  </label>
+                  <input
+                    type="number"
+                    value={fuelWeight}
+                    onChange={(e) => setFuelWeight(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+
+                {/* Distance Weight */}
+                <div className="flex-1">
+                  <label className="text-sm font-semibold text-gray-700">
+                    Distance{" "}
+                  </label>
+                  <input
+                    type="number"
+                    value={distanceWeight}
+                    onChange={(e) => setDistanceWeight(e.target.value)}
+                    className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
+                    step="0.01"
+                    min="0"
+                  />
+                </div>
+              </div>
+
+              {/* Error Message */}
+              {errorMessage && (
+                <p className="text-red-500 text-sm">{errorMessage}</p>
+              )}
+
+              {/* Submit Button */}
+              <button
+                className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10"
+                onClick={handleWeightSubmit}
+              >
+                <FaWeight className="text-lg" />
+                {/* <FaRoute className="text-lg" /> */}
+                <span>Find Custom Weight Route</span>
+              </button>
             </div>
-
-            {/* Fuel Weight */}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Fuel </label>
-              <input
-                type="number"
-                value={fuelWeight}
-                onChange={(e) => setFuelWeight(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-                step="0.01"
-                min="0"
-              />
-            </div>
-
-            {/* Distance Weight */}
-            <div className="flex-1">
-              <label className="text-sm font-semibold text-gray-700">Distance </label>
-              <input
-                type="number"
-                value={distanceWeight}
-                onChange={(e) => setDistanceWeight(e.target.value)}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 h-8"
-                step="0.01"
-                min="0"
-              />
-            </div>
-          </div>
-
-          {/* Error Message */}
-          {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
-
-          {/* Submit Button */}
-          <button
-            className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10"
-              onClick={handleWeightSubmit}
-            >
-              <FaWeight className="text-lg" />
-              {/* <FaRoute className="text-lg" /> */}
-              <span>Find Custom Weight Route</span>
-            </button>
-
-        </div>
             {/* Customized Weight Path */}
             {showCustomizedRoute && (
               <div className="mt-6 p-4 bg-teal-100 rounded-md shadow-md">
-                <h3 className="text-lg font-bold">Customized Route Based on Weights</h3>
+                <h3 className="text-lg font-bold">
+                  Customized Route Based on Weights
+                </h3>
                 <p>Safety Weight: {safetyWeight} kg</p>
                 <p>Fuel Weight: {fuelWeight} kg</p>
                 <p>Distance Weight: {distanceWeight} km</p>
-                <p>Customized route details will appear here based on the input weights.</p>
+                <p>
+                  Customized route details will appear here based on the input
+                  weights.
+                </p>
               </div>
             )}
           </div>
