@@ -14,6 +14,8 @@ import {
   FaEyeSlash
 } from "react-icons/fa";
 import Modal from "./RouteDetails";
+import axios from "axios";
+import JSZip from 'jszip';
 
 const Sidebar = ({
   source,
@@ -122,6 +124,96 @@ const Sidebar = ({
     // Logic to recalculate the route goes here
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate source and destination
+    if (!source.includes(",")) {
+      console.error("Invalid source format. It should be in 'lat, lon' format.");
+      return;
+    }
+
+    if (!destination.includes(",")) {
+      console.error("Invalid destination format. It should be in 'lat, lon' format.");
+      return;
+    }
+
+    const [start_lat, start_lon] = source.split(",").map((val) => val.trim());
+    const [goal_lat, goal_lon] = destination.split(",").map((val) => val.trim());
+
+    const payload = {
+      start_lat: parseFloat(start_lat),
+      start_lon: parseFloat(start_lon),
+      goal_lat: parseFloat(goal_lat),
+      goal_lon: parseFloat(goal_lon),
+      ship_speed: 40,
+      ship_dis: shipDisplacement,
+      ship_height: heightAboveSea,
+      area_front: frontalArea,
+      ship_reso: resonantPeriod,
+      hull_eff: hullEfficiency,
+      prop_eff: propellerEfficiency,
+      engine_eff: engineShaftEfficiency,
+      c_sfoc: csfoc
+    };
+
+    try {
+      // Set loading state
+      setIsLoading(true);
+
+      const response = await axios.post("http://localhost:5000/calculate_route", payload, {
+        responseType: 'blob', // Important for file download
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Route calculation complete. Fetching zip file...");
+
+      // Step 2: Fetch the zip file from the public folder
+      const zipResponse = await fetch("./route_files.zip");
+
+      if (!zipResponse.ok) {
+        throw new Error(`Failed to fetch zip file: ${zipResponse.statusText}`);
+      }
+
+      const blob = await zipResponse.blob();
+
+      // Step 3: Use JSZip to process the zip file
+      const zip = new JSZip();
+      const zipContents = await zip.loadAsync(blob);
+
+      // Step 4: Process files in the zip
+      for (const relativePath in zipContents.files) {
+        const file = zipContents.files[relativePath];
+        const content = await file.async('string');
+
+        // Log or process each file content
+        console.log(`File: ${relativePath}`);
+        console.log(`Content: ${content}`);
+
+        // Optional: Store content in state or display it on the page
+      }
+
+      console.log("Unzipped and processed files successfully.");
+    } catch (error) {
+      // Handle any errors
+      console.error("Error calculating route:", error.response ? error.response.data : error.message);
+
+      // Optional: Show error message to user
+      if (error.response) {
+        alert(`Error: ${error.response.data.error || 'Failed to calculate route'}`);
+      } else if (error.request) {
+        alert('No response received from server. Please check your connection.');
+      } else {
+        alert('Error in request setup');
+      }
+    } finally {
+      // Reset loading state
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div
       className="flex h-screen"
@@ -178,10 +270,7 @@ const Sidebar = ({
           >
             {/* Source Input */}
             <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setActiveTab("routes"); // Trigger your route logic here
-              }}
+              onSubmit={handleSubmit}
               className="space-y-4"
             >
               <div className="space-y-1">
@@ -303,7 +392,7 @@ const Sidebar = ({
               {/* Fuel Consumption */}
               <div className="flex-1">
                 <label className="text-sm font-semibold text-gray-700">
-                  Fuel Consumption per Hours (gallons){" "}
+                    Specific Fuel Oil Consumption (g/kWh){" "}
                 </label>
                 {/* <label className="text-sm font-semibold text-gray-700">Engine Shaft (ηₑ) </label> */}
                 <input
@@ -439,7 +528,7 @@ const Sidebar = ({
                 type="submit"
                 className="w-full flex items-center justify-center gap-2 p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 transform transition duration-300 h-10"
                 // onClick={() => setActiveTab("routes")}
-                onClick={handleFindRoutes}
+                // onClick={handleFindRoutes}
               >
                 <FaRoute /> Find Optimized Routes
               </button>
